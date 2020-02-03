@@ -7,7 +7,7 @@ img_color = cv.imread(r"C:\program1\image_raw\01-0001.png", cv.IMREAD_COLOR)
 img_gray = cv.cvtColor(img_color, cv.COLOR_BGR2GRAY)
 
 height, width = img_gray.shape
-img_gray_pixel1 = np.zeros((height, width), np.uint8)
+#img_gray_pixel1 = np.zeros((height, width), np.uint8)
 
 for y in range(0, height):
     for x in range(0, width):
@@ -21,6 +21,8 @@ for y in range(0, height):
         img_gray_pixel.append(line)
         
 print(img_gray_pixel)
+
+
 
 file = open(r'C:\program1\test.txt', 'w')
 
