@@ -36,6 +36,7 @@ def pixel_CutCtireia(DATA_KIND):
         
         img_gray_pixel_CutCriteria.append(line)
         
+        #함수 호출 여러번 하지 않게 바꿔야 함.
         pixel_CutCriteria_detail(img_gray_pixel_CutCriteria, width, height, img_gray)
 
 start = time.time()

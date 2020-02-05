@@ -3,7 +3,7 @@ import numpy as np
 
 img_gray_pixel = []
 
-img_color = cv.imread(r"C:\program1\image_raw\01-0001.png", cv.IMREAD_COLOR)
+img_color = cv.imread(r"C:\program1\image_raw\39.bmp", cv.IMREAD_COLOR)
 img_gray = cv.cvtColor(img_color, cv.COLOR_BGR2GRAY)
 
 height, width = img_gray.shape
