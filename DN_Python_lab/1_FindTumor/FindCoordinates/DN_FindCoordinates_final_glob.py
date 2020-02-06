@@ -4,7 +4,7 @@ import time
 import glob
 
 #원하는 경로 지정 변수
-path_image = 'C:\program1\image'
+path_image = 'C:\program1\image_mask'
 i = 0
 
 #저장하고 싶은 경로
@@ -54,7 +54,7 @@ def find_coordinates(DATA_KIND, SAVE_PATH):
         #[(x0, y0), (x1, y1)] 형태로 저장
 
         line = []
-        
+        #왼쪽 아래, 오른쪽 위 좌표 저장
         line.append(basename)
         line.append(str(x))
         line.append(str(y + h))

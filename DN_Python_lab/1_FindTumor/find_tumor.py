@@ -1,9 +1,8 @@
-import glob
-import time
 import cv2 as cv
-from matplotlib import pyplot as plt
-import numpy as np
 import os
+import time
+import glob
+import numpy as np
 
 #원하는 경로 지정 변수
 path_image = r'C:\program1\image_raw\\'
@@ -22,6 +21,72 @@ SAVE_PATH_mask = 'C:\program1\image_mask_modified\\'
 #원하는 경로 지정 변수
 path_mask = r'C:\program1\image_mask\\'
 
+#원하는 경로 지정 변수
+path_modified_image = 'C:\program1\image_mask_modified'
+i = 0
+
+#저장하고 싶은 경로 - 좌표
+SAVE_PATH_coordinates = r'C:\program1\image_modified_coordinates\\'
+
+#.tif, .png, .bmp -좌표
+tif_c = glob.glob(path_modified_image + '/*.tif')
+png_c = glob.glob(path_modified_image + '/*.png')
+bmp_c = glob.glob(path_modified_image + '/*.bmp')
+
+
+def generate_text(SAVE_PATH, each_coordinates_list,  sep):
+    
+    DATA_basename = ['tif', 'png', 'bmp']
+    
+    global i
+    file = open(SAVE_PATH + 'DATA_{}'.format(DATA_basename[i]) + '.txt', 'w')
+        
+    for a in range(len(each_coordinates_list)): 
+            
+        vstr = ''
+        vstr = vstr + str(each_coordinates_list[a])+ sep         
+        vstr = vstr.rstrip(sep)
+           
+        file.write(vstr)
+        file.write("\n")
+        file.write("\n")
+        a += 1
+        
+    file.close()
+       
+    i += 1
+           
+    
+
+def find_coordinates(DATA_KIND, SAVE_PATH_coordinates):
+    
+    coordinates_list = []
+    #이미지에서 좌표를 찾는다
+    for a in DATA_KIND:
+        
+        img_binary = cv.imread(a, 0)
+        contours, hierarchy = cv.findContours(img_binary, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+        basename = os.path.basename(a)
+        
+        for cnt in contours:
+            x, y, w, h = cv.boundingRect(cnt)
+        #[(x0, y0), (x1, y1)] 형태로 저장
+
+        line = []
+        #왼쪽 아래, 오른쪽 위 좌표 저장
+        line.append(basename)
+        line.append(str(x))
+        line.append(str(y + h))
+        line.append(str(x + w))
+        line.append(str(y))
+                  
+        coordinates_list.append(line)   
+     
+    generate_text(SAVE_PATH_coordinates, coordinates_list,  '\n')
+        
+
+
+
 
 def mask_cutting(x, y, w, h, SAVE_PATH_mask, basename, TYPE):
     
@@ -29,8 +94,8 @@ def mask_cutting(x, y, w, h, SAVE_PATH_mask, basename, TYPE):
     mask_gray = cv.imread(path_mask + basename[:-4] + '_mask'  + TYPE, cv.IMREAD_GRAYSCALE)
         
     mask_trim = mask_gray[y:y+h, x:x+w]
-    cv.imwrite(SAVE_PATH_mask + basename + '_mask' + TYPE, mask_trim)
-    print(basename + '_mask' + TYPE)
+    cv.imwrite(SAVE_PATH_mask + basename[:-4] + '_mask' + TYPE, mask_trim)
+    print(basename[:-4] + '_mask' + TYPE)
         
         
 
@@ -110,10 +175,15 @@ def img_cutting(DATA_KIND, SAVE_PATH):
 
 
 startTime = time.time()
+
 img_cutting(bmp,SAVE_PATH_img)
 img_cutting(png, SAVE_PATH_img)    
+
+        
+find_coordinates(tif_c, SAVE_PATH_coordinates)
+find_coordinates(png_c, SAVE_PATH_coordinates)
+find_coordinates(bmp_c, SAVE_PATH_coordinates)
+
 endTime = time.time()
 
-print(round(endTime - startTime, 2))       
-        
-        
+print(round(endTime - startTime, 2))
