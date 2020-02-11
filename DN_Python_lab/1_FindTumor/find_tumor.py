@@ -132,7 +132,7 @@ def img_cutting(DATA_KIND, SAVE_PATH):
         edged = cv.Canny(blur, 10, 250)
 
 
-        contours, _ = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
 
         contours_xy = np.array(contours)

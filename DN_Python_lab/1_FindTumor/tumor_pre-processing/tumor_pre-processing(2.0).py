@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import os
 
-#원하는 경로 지정 변수
+#raw_image 원하는 경로 지정 변수
 path_image = r'C:\program1\image_raw\\'
 
 tif = glob.glob(path_image + '/*.tif')
@@ -19,7 +19,7 @@ SAVE_PATH_img = 'C:\program1\imgae_raw_modified\\'
 #mask 원하는 저장 공간
 SAVE_PATH_mask = 'C:\program1\image_mask_modified\\'
 
-#원하는 경로 지정 변수
+#mask 원하는 경로 지정 변수
 path_mask = r'C:\program1\image_mask\\'
 
 
